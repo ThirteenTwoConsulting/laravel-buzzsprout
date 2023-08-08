@@ -1,0 +1,29 @@
+{
+    "name": "thirteentwo/laravel-buzzsprout",
+    "description": "Buzzsprout API integration for Laravel 10+",
+    "require": {
+        "illuminate/http": "^10.0"
+    },
+    "require-dev": {
+        "pestphp/pest": "^2.12",
+        "pestphp/pest-plugin-laravel": "^2.1"
+    },
+    "license": "GPL v3",
+    "autoload": {
+        "psr-4": {
+            "ThirteenTwo\\LaravelBuzzsprout\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Eric Hansen",
+            "email": "eric@thirteentwo.co"
+        }
+    ],
+    "minimum-stability": "stable",
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    }
+}
