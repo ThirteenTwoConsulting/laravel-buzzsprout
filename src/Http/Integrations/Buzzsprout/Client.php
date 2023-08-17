@@ -2,14 +2,16 @@
 
 namespace ThirteenTwo\LaravelBuzzsprout\Http\Integrations\Buzzsprout;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
+use ThirteenTwo\LaravelBuzzsprout\Resources\Collections\EpisodeCollection;
+use ThirteenTwo\LaravelBuzzsprout\Resources\EpisodeResource;
+use ThirteenTwo\LaravelBuzzsprout\Resources\PodcastResource;
 
 class Client
 {
-    private static Http $client;
+    private static PendingRequest $client;
 
     public function __construct()
     {
@@ -22,18 +24,35 @@ class Client
             ->acceptJson();
     }
 
-    public static final function get(string $uri, bool $withPodcastId = true): JsonResponse
+    public static final function podcast(): PodcastResource
     {
-        $response = self::$client->get('{+endpoint}/' . ($withPodcastId ? '{+podId}' : '') . '/' . $uri);
-
-        return new JsonResponse($response->json(), $response->status(), $response->headers(), 0, true);
+        return PodcastResource::make(
+            self::get('/podcasts', false)->content()
+        );
     }
 
-    public static function convertJsonToModel(string $json, string $model, bool $dataIsCollection = false): Collection|Model
+    public static final function episodes(): EpisodeCollection
     {
-        $model = null;
-        $collection = collect();
+        $data = json_decode(self::get('/episodes')->content(), true);
 
-        return $dataIsCollection ? $collection : $model;
+        $episodes = collect();
+
+        foreach ($data as $episode) {
+            $episodes->push(EpisodeResource::make(json_encode($episode)));
+        }
+
+        return EpisodeCollection::make($episodes);
+    }
+
+    public static final function episode(int $episodeId): EpisodeResource
+    {
+        return EpisodeResource::make(self::get('/episodes/' . $episodeId)->content());
+    }
+
+    private static function get(string $uri, bool $withPodcastId = true): JsonResponse
+    {
+        $response = self::$client->get('{+endpoint}/' . ($withPodcastId ? '{+podId}' : '') . '/' . $uri . '.json');
+
+        return JsonResponse::fromJsonString($response->body(), $response->status(), $response->headers());
     }
 }

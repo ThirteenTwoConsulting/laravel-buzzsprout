@@ -26,10 +26,12 @@ class PodcastResource extends JsonResource
 
     public function toArray(Request $request)
     {
-        $mainCategories = collect([$this->resource['main_category'], $this->resource['main_category2'], $this->resource['main_category3']]);
-        $subCategories = collect([$this->resource['sub_category'], $this->resource['sub_category2'], $this->resource['sub_category3']]);
+        $data = json_decode($this->resource, true)[0];
 
-        $attribs = collect($this->resource)->intersectByKeys(array_flip(self::$props));
+        $mainCategories = collect([$data['main_category'], $data['main_category2'], $data['main_category3']]);
+        $subCategories = collect([$data['sub_category'], $data['sub_category2'], $data['sub_category3']]);
+
+        $attribs = collect($data)->intersectByKeys(array_flip(self::$props));
         $attribs->put('main_categories', $mainCategories);
         $attribs->put('sub_categories', $subCategories);
 
