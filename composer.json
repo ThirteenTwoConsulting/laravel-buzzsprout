@@ -1,5 +1,6 @@
 {
     "name": "thirteentwo/laravel-buzzsprout",
+    "version": "0.0.1",
     "description": "Buzzsprout API integration for Laravel 10+",
     "require": {
         "illuminate/http": "^10.0",
@@ -9,7 +10,7 @@
         "pestphp/pest": "^2.12",
         "pestphp/pest-plugin-laravel": "^2.1"
     },
-    "license": "GPL v3",
+    "license": "MIT",
     "autoload": {
         "psr-4": {
             "ThirteenTwo\\LaravelBuzzsprout\\": "./src/"
