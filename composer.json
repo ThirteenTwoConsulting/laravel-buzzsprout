@@ -1,5 +1,5 @@
 {
-    "name": "thirteentwo/laravel-buzzsprout",
+    "name": "thirteentwoconsulting/laravel-buzzsprout",
     "version": "0.0.1",
     "description": "Buzzsprout API integration for Laravel 10+",
     "require": {
