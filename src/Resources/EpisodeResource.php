@@ -26,7 +26,8 @@ class EpisodeResource extends JsonResource
         'season_number',
         'explicit',
         'private',
-        'total_plays'
+        'total_plays',
+        'episode_type'
     ];
 
     public function toArray(Request $request)
